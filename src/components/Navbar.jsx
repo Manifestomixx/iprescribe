@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from './Icon';
 import useAuthStore from '../store/authStore';
+import Notification from './Notification';
 
 export default function Navbar({ onMenuClick }) {
     const navigate = useNavigate();
     const logout = useAuthStore((state) => state.logout);
     const user = useAuthStore((state) => state.user);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [notification, setNotification] = useState(null);
     const dropdownRef = useRef(null);
 
     const getUserDisplayName = () => {
@@ -43,6 +45,22 @@ export default function Navbar({ onMenuClick }) {
         setIsDropdownOpen(!isDropdownOpen);
     };
 
+    const handleNotificationClick = () => {
+        setNotification({
+            title: 'Feature Unavailable',
+            message: 'This feature is not available yet',
+            logo: Icon.notification,
+            bgColor: 'bg-white',
+            borderColor: 'border-blue-200',
+            textColor: 'text-blue-900',
+            duration: 2000
+        });
+    };
+
+    const handleCloseNotification = () => {
+        setNotification(null);
+    };
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -72,7 +90,13 @@ export default function Navbar({ onMenuClick }) {
             </button>
             
             <div className="flex items-center gap-5 lg:pr-10">
-               <img src={Icon.notification} alt="notification" className="hidden sm:block" />
+               <button
+                   onClick={handleNotificationClick}
+                   className="hidden sm:block cursor-pointer hover:opacity-70 transition-opacity"
+                   aria-label="Notifications"
+               >
+                   <img src={Icon.notification} alt="notification" />
+               </button>
                <span className='border-l-1 h-10 border-zinc-200 hidden sm:block'></span>
                <div className="relative" ref={dropdownRef}>
                 <div className="flex items-center gap-2 pr-2">
@@ -116,6 +140,12 @@ export default function Navbar({ onMenuClick }) {
                 )}
                </div>
             </div>
+            {notification && (
+                <Notification 
+                    notification={notification} 
+                    onClose={handleCloseNotification} 
+                />
+            )}
         </div>
     )
 }

@@ -6,6 +6,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import { Icon } from '../components/Icon'
 import { getDashboardStats, getRecentPatients } from '../services/dashboard'
+import Notification from '../components/Notification'
 
 const CustomTooltip = ({ active, payload, dataKey }) => {
     if (active && payload && payload.length) {
@@ -151,9 +152,26 @@ const Dashboard = () => {
     ]);
     const [tableData, setTableData] = useState([]);
     const [sortConfig, setSortConfig] = useState({ column: null, direction: 'asc' });
+    const [notification, setNotification] = useState(null);
     
     const openDatePicker = (event) => {
         setDateRangeAnchor(event.currentTarget);
+    };
+
+    const handleFeatureUnavailable = () => {
+        setNotification({
+            title: 'Feature Unavailable',
+            message: 'This feature is not available yet',
+            logo: Icon.notification,
+            bgColor: 'bg-white',
+            borderColor: 'border-blue-200',
+            textColor: 'text-blue-900',
+            duration: 4000
+        });
+    };
+
+    const handleCloseNotification = () => {
+        setNotification(null);
     };
 
     const closeDatePicker = () => {
@@ -702,7 +720,12 @@ const Dashboard = () => {
                                 <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '14px', color: '#6C7278' }}>
                                     Consultation Over Time
                                 </Typography>
-                                <img src={Icon.more} alt="more-icon" className='cursor-pointer' />
+                                <img 
+                                    src={Icon.more} 
+                                    alt="more-icon" 
+                                    className='cursor-pointer' 
+                                    onClick={handleFeatureUnavailable}
+                                />
                             </Box>
                             <ResponsiveContainer width="100%" height={250} >
                                 <LineChart data={filteredConsultationData.length > 0 ? filteredConsultationData : consultationData}>
@@ -722,7 +745,12 @@ const Dashboard = () => {
                                 <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '14px', color: '#6C7278' }}>
                                     Prescription Volume Trend
                                 </Typography>
-                                <img src={Icon.more} alt="more-icon" className='cursor-pointer' />
+                                <img 
+                                    src={Icon.more} 
+                                    alt="more-icon" 
+                                    className='cursor-pointer' 
+                                    onClick={handleFeatureUnavailable}
+                                />
                             </Box>
                             <ResponsiveContainer width="100%" height={250}>
                                 <LineChart data={filteredPrescriptionData.length > 0 ? filteredPrescriptionData : prescriptionData}>
@@ -786,7 +814,12 @@ const Dashboard = () => {
                                 <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '14px', color: '#6C7278' }}>
                                     Top Specialties in Demand
                                 </Typography>
-                                <img src={Icon.more} alt="more-icon" className='cursor-pointer' />
+                                <img 
+                                    src={Icon.more} 
+                                    alt="more-icon" 
+                                    className='cursor-pointer' 
+                                    onClick={handleFeatureUnavailable}
+                                />
                             </Box>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 4, position: 'relative', flexDirection: { xs: 'column', md: 'row' } }}>
                                 <Box 
@@ -948,6 +981,7 @@ const Dashboard = () => {
                             <Button 
                                 variant="text" 
                                 sx={{ textTransform: 'none', color: '#1A1C1E' }}
+                                onClick={handleFeatureUnavailable}
                             >
                                 See All &gt;
                             </Button>
@@ -1308,6 +1342,12 @@ const Dashboard = () => {
                 </>
                 )}
             </Container>
+            {notification && (
+                <Notification 
+                    notification={notification} 
+                    onClose={handleCloseNotification} 
+                />
+            )}
         </DashboardLayout>
     )
 }
