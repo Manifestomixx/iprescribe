@@ -117,7 +117,7 @@ export default function Navbar({ onMenuClick }) {
                     </div>
                     <button 
                         onClick={toggleDropdown}
-                        className="hidden sm:block cursor-pointer hover:opacity-70 transition-opacity"
+                        className="cursor-pointer hover:opacity-70 transition-opacity"
                         aria-label="Toggle dropdown"
                     >
                         <img 
@@ -130,6 +130,10 @@ export default function Navbar({ onMenuClick }) {
                 
                 {isDropdownOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                        <div className="sm:hidden px-4 py-2 border-b border-gray-200">
+                            <p className='text-sm font-medium'>{getUserDisplayName()}</p>
+                            <p className='text-xs text-blue-700'>{getUserRole()}</p>
+                        </div>
                         <button
                             onClick={handleLogout}
                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-red-500 cursor-pointer transition-colors"
