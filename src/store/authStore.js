@@ -36,13 +36,18 @@ const useAuthStore = create(
       },
 
       logout: () => {
+        // Clear Zustand state
         set({ 
           user: null, 
           token: null, 
-          isAuthenticated: false 
+          isAuthenticated: false,
+          loading: false
         });
+        // Clear localStorage items
         localStorage.removeItem('authToken');
         localStorage.removeItem('user');
+        // Clear Zustand persisted storage
+        localStorage.removeItem('auth-storage');
       },
 
       setLoading: (loading) => set({ loading }),

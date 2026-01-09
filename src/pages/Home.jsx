@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Icon } from "../components/Icon";
 import Notification from "../components/Notification";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -115,9 +116,12 @@ const Home = () => {
 
             <div className="hidden sm:flex sm:flex-row gap-3 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-12 items-center">
               <div className="flex gap-3 sm:gap-4 md:gap-6 lg:gap-8 text-xs sm:text-sm md:text-base">
-                <p className="cursor-not-allowed hover:text-[#1e2d6b] transition-colors whitespace-nowrap">
+                <Link to="/login">
+                
+                <p className="cursor-pointer hover:text-[#1e2d6b] transition-colors whitespace-nowrap">
                   Home
                 </p>
+                </Link>
                 <p className="cursor-not-allowed hover:text-[#1e2d6b] transition-colors whitespace-nowrap">
                   Features
                 </p>
@@ -142,12 +146,15 @@ const Home = () => {
             >
               <div className="flex flex-col gap-4 p-6">
                 <div className="flex flex-col gap-4 text-base">
+                    <Link to="/login">
+                    
                   <p
                     className="cursor-pointer hover:text-[#283C85] transition-colors py-2"
                     onClick={toggleMenu}
                   >
                     Home
                   </p>
+                    </Link>
                   <p
                     className="cursor-pointer hover:text-[#283C85] transition-colors py-2"
                     onClick={toggleMenu}
